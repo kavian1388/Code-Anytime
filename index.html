@@ -8,191 +8,161 @@
     <title>درگاه پرداخت</title>
 
     <!-- وارد کردن فونت‌ها -->
-    <style>
-        @import url('https://fonts.googleapis.com/css2?family=Vazirmatn:wght@400;700&display=swap');
-        /* فونت اصلی صفحه */
-        @import url('https://fonts.googleapis.com/css2?family=Creepster&display=swap');
-        /* فونت عجیب برای کپچا */
-    
-        /* استایل کلی بدنه صفحه */
-        body {
-            font-family: 'Vazirmatn', sans-serif;
-            background: #f9f9f9;
-            margin: 0;
-            padding: 40px;
-            direction: rtl;
-            /* جهت راست به چپ */
-            text-align: center;
-        }
-    
-        /* استایل عنوان صفحه */
-        h2 {
-            font-family: 'Vazirmatn', sans-serif;
-            color: #333;
-            font-size: 26px;
-            margin-bottom: 30px;
-            transition: 0.3s ease-in-out;
-        }
-    
-        /* استایل کانتینر کارت ساده */
-        .card-container {
-            width: 350px;
-            height: 200px;
-            margin: 0 auto 30px auto;
-            /* وسط‌چین کردن و فاصله از فرم */
-            position: relative;
-        }
-    
-        /* استایل کارت ساده و دوست‌داشتنی */
-        .card-front {
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(135deg, #c5cdcf, #efeeef);
-            /* گرادیانت ملایم و قشنگ */
-            border-radius: 15px;
-            padding: 10px;
-            color: #333;
-            /* رنگ متن تیره برای خوانایی */
-            font-family: 'Vazirmatn', sans-serif;
-            /* فونت ساده و دوست‌داشتنی */
-            position: relative;
-            box-shadow: 0 4px 15px rgba(235, 227, 227, 0.1);
-            /* سایه نرم */
-            border: 1px solid #ddd;
-            /* خط دور ملایم */
-        }
-    
-        /* استایل شماره کارت (وسط کارت) */
-        .card-number {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            font-size: 16px;
-            letter-spacing: 1px;
-            /* فاصله بین حروف برای زیبایی */
-        }
-    
-        /* استایل تاریخ انقضا (پایین سمت راست) */
-        .card-expiry {
-            position: absolute;
-            bottom: 20px;
-            right: 20px;
-            font-size: 16px;
-        }
-    
-        /* استایل CVV (پایین سمت چپ) */
-        .card-cvv {
-            position: absolute;
-            bottom: 20px;
-            left: 20px;
-            font-size: 16px;
-        }
-    
-        /* استایل فرم پرداخت */
-        .payment-form {
-            max-width: 400px;
-            margin: 0 auto;
-            /* وسط‌چین کردن فرم */
-        }
-    
-        /* استایل گروه فیلدها */
-        .form-group {
-            margin-bottom: 25px;
-        }
-    
-        /* استایل ورودی‌ها (فیلدها) */
-        .form-group input {
-            font-family: 'Vazirmatn', sans-serif;
-            width: 100%;
-            padding: 12px;
-            background: transparent;
-            font-size: 16px;
-            outline: none;
-            border: none;
-            border-bottom: 2px solid #ddd;
-            color: #444;
-            border-radius: 5px;
-            transition: all 0.3s ease;
-        }
-    
-        /* استایل ورودی‌ها موقع فوکوس */
-        .form-group input:focus {
-            border-bottom: 2px solid #007bff;
-            color: #333;
-            box-shadow: 0 0 5px rgba(0, 123, 255, 0.4);
-        }
-    
-        /* استایل پلِیس‌هولدر */
-        .form-group input::placeholder {
-            color: #888;
-        }
-    
-        /* استایل گروه ماه و سال */
-        .expiry-group {
-            display: flex;
-            gap: 35px;
-            /* فاصله بین ماه و سال */
-            max-width: 235px;
-            /* طول کوتاه‌تر */
-            margin: 0 auto;
-            /* وسط‌چین کردن */
-        }
-    
-        /* استایل فیلدهای داخل گروه ماه و سال */
-        .expiry-group .form-group {
-            margin-bottom: 25px;
-        }
-    
-        /* استایل فیلد ماه */
-        .expiry-group .form-group.month {
-            flex: 1;
-        }
-    
-        /* استایل فیلد سال */
-        .expiry-group .form-group.year {
-            flex: 1.3;
-            /* سال یه کم بزرگ‌تر */
-        }
-    
-        /* استایل فیلد CVV */
-        .cvv-group {
-            max-width: 300px;
-            /* طول کوتاه‌تر */
-            margin: 0 auto;
-            /* وسط‌چین کردن */
-        }
-    
-        /* استایل کپچا */
-        .captcha {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            margin-bottom: 25px;
-        }
-    
-        /* استایل متن کپچا */
-        .captcha span {
-            font-family: 'Creepster', cursive;
-            /* فونت عجیب */
-            font-size: 14px;
-            /* کوچیک‌تر */
-            color: #333;
-            margin-left: 10px;
-            /* بیرون کادر */
-        }
-    
-        /* استایل فیلد کپچا */
-        .captcha .form-group {
+<style>
+    @import url('https://fonts.googleapis.com/css2?family=Vazirmatn:wght@400;700&display=swap');
+    /* فونت اصلی صفحه */
+    @import url('https://fonts.googleapis.com/css2?family=Creepster&display=swap');
+    /* فونت عجیب برای کپچا */
+
+    /* استایل کلی بدنه صفحه */
+    body {
+        font-family: 'Vazirmatn', sans-serif;
+        background: #f9f9f9;
+        margin: 0;
+        padding: 40px 40px 0 40px; /* padding بالا رو صفر کردیم تا کارت بالا بمونه */
+        direction: rtl;
+        text-align: center;
+    }
+
+    /* استایل عنوان صفحه */
+    h2 {
+        font-family: 'Vazirmatn', sans-serif;
+        color: #333;
+        font-size: 26px;
+        margin-bottom: 30px;
+        transition: 0.3s ease-in-out;
+    }
+
+    /* استایل کانتینر کارت ساده */
+    .card-container {
+        width: 350px;
+        height: 200px;
+        margin: 0 auto 30px auto; /* وسط‌چین کردن و فاصله از پایین */
+        position: relative;
+    }
+
+    /* استایل کارت ساده و دوست‌داشتنی */
+    .card-front {
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(135deg, #c5cdcf, #efeeef);
+        border-radius: 15px;
+        padding: 10px;
+        color: #333;
+        font-family: 'Vazirmatn', sans-serif;
+        position: relative;
+        box-shadow: 0 4px 15px rgba(235, 227, 227, 0.1);
+        border: 1px solid #ddd;
+    }
+
+    /* استایل شماره کارت (وسط کارت) */
+    .card-number {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        font-size: 16px;
+        letter-spacing: 1px;
+    }
+
+    /* استایل تاریخ انقضا (پایین سمت راست) */
+    .card-expiry {
+        position: absolute;
+        bottom: 20px;
+        right: 20px;
+        font-size: 16px;
+    }
+
+    /* استایل CVV (پایین سمت چپ) */
+    .card-cvv {
+        position: absolute;
+        bottom: 20px;
+        left: 20px;
+        font-size: 16px;
+    }
+
+    /* استایل فرم پرداخت */
+    .payment-form {
+        max-width: 400px;
+        margin: 0 auto;
+    }
+
+    /* استایل گروه فیلدها */
+    .form-group {
+        margin-bottom: 25px;
+    }
+
+    /* استایل ورودی‌ها (فیلدها) */
+    .form-group input {
+        font-family: 'Vazirmatn', sans-serif;
+        width: 100%;
+        padding: 12px;
+        background: transparent;
+        font-size: 16px;
+        outline: none;
+        border: none;
+        border-bottom: 2px solid #ddd;
+        color: #444;
+        border-radius: 5px;
+        transition: all 0.3s ease;
+    }
+
+    .form-group input:focus {
+        border-bottom: 2px solid #007bff;
+        color: #333;
+        box-shadow: 0 0 5px rgba(0, 123, 255, 0.4);
+    }
+
+    .form-group input::placeholder {
+        color: #888;
+    }
+
+    .expiry-group {
+        display: flex;
+        gap: 35px;
+        max-width: 235px;
+        margin: 0 auto;
+    }
+
+    .expiry-group .form-group {
+        margin-bottom: 25px;
+    }
+
+    .expiry-group .form-group.month {
         flex: 1;
     }
 
-    /* استایل بخش رمز پویا */
+    .expiry-group .form-group.year {
+        flex: 1.3;
+    }
+
+    .cvv-group {
+        max-width: 300px;
+        margin: 0 auto;
+    }
+
+    .captcha {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        margin-bottom: 25px;
+    }
+
+    .captcha span {
+        font-family: 'Creepster', cursive;
+        font-size: 14px;
+        color: #333;
+        margin-left: 10px;
+    }
+
+    .captcha .form-group {
+        flex: 1;
+    }
+
     .dynamic-password {
         position: relative;
     }
 
-    /* استایل لینک رمز پویا */
     .dynamic-password a {
         position: absolute;
         left: 10px;
@@ -203,12 +173,10 @@
         text-decoration: none;
     }
 
-    /* استایل هاور لینک رمز پویا */
     .dynamic-password a:hover {
         text-decoration: underline;
     }
 
-    /* استایل دکمه پرداخت */
     .btn-submit {
         font-family: 'Vazirmatn', sans-serif;
         background: #007bff;
@@ -220,25 +188,21 @@
         transition: background 0.3s ease-in-out, transform 0.2s ease-in-out;
         border-radius: 8px;
         width: 100%;
-        max-width: 300px;
-        display: block;
+        max-width: 300px;display: block;
         margin: 20px auto;
     }
 
-    /* استایل هاور دکمه پرداخت */
     .btn-submit:hover {
         background: #0056b3;
         transform: scale(1.05);
     }
 
-    /* استایل نمایش مبلغ */
     .price-display {
         font-size: 18px;
         color: #333;
         margin-bottom: 20px;
     }
 
-    /* استایل تیک ذخیره کارت */
     .save-card {
         margin: 20px 0;
         font-size: 14px;
@@ -252,17 +216,16 @@
         }
 
         .card-container {
-            width: 300px; /* کوچکتر شدن کارت */
-            height: 170px;
+            width: 300px; /* سایز متوسط کارت */
+            height: 171px; /* نسبت ارتفاع به عرض حفظ می‌شه */
         }
 
         .card-number {
-            font-size: 14px; /* کاهش اندازه فونت شماره کارت */
+            font-size: 14px; /* فونت کوچکتر */
         }
 
         .card-expiry, .card-cvv {
-            font-size: 14px; /* کاهش اندازه فونت تاریخ و CVV */
-            bottom: 15px; /* تنظیم فاصله از پایین */
+            font-size: 14px; /* فونت کوچکتر */
         }
 
         .form-group input {
@@ -278,24 +241,21 @@
     /* استایل ریسپانسیو برای موبایل */
     @media (max-width: 480px) {
         body {
-            padding: 20px;
+            padding: 20px 20px 0 20px; /* padding بالا صفر برای نزدیکی به بالا */
         }
 
         .card-container {
-            width: 250px; /* کوچکتر شدن بیشتر برای موبایل */
-            height: 140px;
+            width: 250px; /* سایز کوچک کارت */
+            height: 142px; /* نسبت ارتفاع به عرض حفظ می‌شه */
         }
 
         .card-number {
-            font-size: 12px; /* فونت کوچکتر برای شماره کارت */
-            letter-spacing: 0.5px; /* کاهش فاصله بین حروف */
+            font-size: 12px; /* فونت کوچکتر */
+            letter-spacing: 0.5px;
         }
 
         .card-expiry, .card-cvv {
-            font-size: 12px; /* فونت کوچکتر برای تاریخ و CVV */
-            bottom: 10px; /* فاصله کمتر از پایین */
-            right: 15px; /* تنظیم فاصله از راست */
-            left: 15px; /* تنظیم فاصله از چپ */
+            font-size: 12px; /* فونت کوچکتر */
         }
 
         .form-group input {
