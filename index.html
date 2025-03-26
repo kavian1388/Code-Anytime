@@ -248,7 +248,7 @@ let htmlEditor = CodeMirror.fromTextArea(document.getElementById("html-code"), {
     mode: "xml",
     theme: "dracula",
     lineNumbers: true,
-    autoCloseTags: true, // تکمیل خودکار تگ‌ها
+    autoCloseTags: true, 
     extraKeys: { "Ctrl-Space": "autocomplete" },
     hintOptions: { completeSingle: false }
 });
@@ -260,6 +260,30 @@ let cssEditor = CodeMirror.fromTextArea(document.getElementById("css-code"), {
     lineNumbers: true,
     extraKeys: { "Ctrl-Space": "autocomplete" },
     hintOptions: { completeSingle: false }
+});
+
+// اضافه کردن ": ;" هنگام کلیک روی پیشنهادات در CSS
+cssEditor.on("inputRead", function (editor) {
+    setTimeout(() => {
+        let completionList = document.querySelector(".CodeMirror-hints");
+        if (completionList) {
+            completionList.addEventListener("click", function (e) {
+                if (e.target.classList.contains("CodeMirror-hint")) {
+                    let cursor = editor.getCursor();
+                    let token = editor.getTokenAt(cursor);
+                    let prop = e.target.innerText.trim();
+
+                    // اضافه کردن ": ;" فقط هنگام کلیک روی پیشنهاد
+                    let newValue = `${prop}: ;`;
+                    editor.replaceRange(newValue, { line: cursor.line, ch: token.start }, { line: cursor.line, ch: token.end });
+
+                    // تنظیم مکان‌نما بین : و ;
+                    editor.setCursor(cursor.line, token.start + prop.length + 2);
+                    e.stopPropagation();
+                }
+            }, { once: true });
+        }
+    }, 100);
 });
 
 // تنظیم ویرایشگر CodeMirror برای JavaScript
@@ -349,5 +373,36 @@ function adjustEditorHeight(editor) {
 htmlEditor.on("change", function () { adjustEditorHeight(htmlEditor); });
 cssEditor.on("change", function () { adjustEditorHeight(cssEditor); });
 jsEditor.on("change", function () { adjustEditorHeight(jsEditor); });
+
+// اضافه کردن "{" و "}" خودکار در CSS
+// اضافه کردن "{" و "}" خودکار در CSS و انتقال مکان‌نما به خط جدید
+cssEditor.on("beforeChange", function (editor, change) {
+    if (change.origin === "+input") {
+        let typed = change.text[0];
+
+        // وقتی { تایپ شد، } اضافه بشه و مکان‌نما به خط جدید بره
+        if (typed === "{") {
+            let cursor = editor.getCursor();
+            change.update(undefined, undefined, ["{", "", "}", ""]);
+
+            setTimeout(() => {
+                editor.setCursor(cursor.line + 1, 4); // مکان‌نما به خط جدید با فاصله ۴ کاراکتر بره
+            }, 10);
+        }
+
+        // وقتی } تایپ بشه، بررسی می‌کنیم که { وجود داره یا نه
+        if (typed === "}") {
+            let cursor = editor.getCursor();
+            let line = editor.getLine(cursor.line);
+
+            if (!line.includes("{")) {
+                change.update(undefined, undefined, ["{", "", "}", ""]);
+                setTimeout(() => {
+                    editor.setCursor(cursor.line + 1, 4); 
+                }, 10);
+            }
+        }
+    }
+});
 </script>
 </html>
