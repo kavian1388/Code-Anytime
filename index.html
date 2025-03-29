@@ -4,13 +4,41 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ویرایشگر کد پیشرفته</title>
+    <title>Code Anytime</title>
 
     <!-- استایل CodeMirror -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.5/codemirror.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.5/theme/dracula.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.5/addon/hint/show-hint.min.css">
+    <!-- حالت تمام صفحه برای iOS -->
+    <meta name="apple-mobile-web-app-capable" content="yes">
+
+    <!-- رنگ نوار وضعیت -->
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+
+    <!-- عنوان برنامه -->
+    <meta name="apple-mobile-web-app-title" content="ویرایشگر کد">
+
+    <!-- جلوگیری از بزرگنمایی -->
+    <meta name="viewport"
+        content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <link rel="apple-touch-icon" href="image.png">
     <style>
+        /* در بخش style.css یا تگ <style> */
+        @supports (-webkit-touch-callout: none) {
+            body {
+                padding-bottom: env(safe-area-inset-bottom);
+            }
+
+            /* پنهان کردن نوار ابزار پایین در Safari */
+            @media (max-width: 768px) {
+                body {
+                    height: 100vh;
+                    overflow: hidden;
+                }
+            }
+        }
+
         * {
             margin: 0;
             padding: 0;
@@ -162,7 +190,8 @@
 
 <body>
     <div class="editor-tabs" id="editor-tabs">
-        <button class="editor-tab active" data-target="html-editor">HTML</button><button class="editor-tab" data-target="css-editor">CSS</button>
+        <button class="editor-tab active" data-target="html-editor">HTML</button><button class="editor-tab"
+            data-target="css-editor">CSS</button>
         <button class="editor-tab" data-target="js-editor">JavaScript</button>
     </div>
 
@@ -203,43 +232,43 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.5/addon/edit/closetag.min.js"></script>
 
     <script>
-// تنظیم ویرایشگر CodeMirror برای HTML
-let htmlEditor = CodeMirror.fromTextArea(document.getElementById("html-code"), {
-    mode: "xml",
-    theme: "dracula",
-    lineNumbers: true,
-    autoCloseTags: true,
-    extraKeys: { "Ctrl-Space": "autocomplete" },
-    hintOptions: { completeSingle: false }
-});
+        // تنظیم ویرایشگر CodeMirror برای HTML
+        let htmlEditor = CodeMirror.fromTextArea(document.getElementById("html-code"), {
+            mode: "xml",
+            theme: "dracula",
+            lineNumbers: true,
+            autoCloseTags: true,
+            extraKeys: { "Ctrl-Space": "autocomplete" },
+            hintOptions: { completeSingle: false }
+        });
 
-// تنظیم ویرایشگر CodeMirror برای CSS
-let cssEditor = CodeMirror.fromTextArea(document.getElementById("css-code"), {
-    mode: "css",
-    theme: "dracula",
-    lineNumbers: true,
-    extraKeys: { "Ctrl-Space": "autocomplete" },
-    hintOptions: { completeSingle: false }
-});
+        // تنظیم ویرایشگر CodeMirror برای CSS
+        let cssEditor = CodeMirror.fromTextArea(document.getElementById("css-code"), {
+            mode: "css",
+            theme: "dracula",
+            lineNumbers: true,
+            extraKeys: { "Ctrl-Space": "autocomplete" },
+            hintOptions: { completeSingle: false }
+        });
 
-// تنظیم ویرایشگر CodeMirror برای JavaScript
-let jsEditor = CodeMirror.fromTextArea(document.getElementById("js-code"), {
-    mode: "javascript",
-    theme: "dracula",
-    lineNumbers: true,
-    extraKeys: { "Ctrl-Space": "autocomplete" },
-    hintOptions: { completeSingle: false }
-});
+        // تنظیم ویرایشگر CodeMirror برای JavaScript
+        let jsEditor = CodeMirror.fromTextArea(document.getElementById("js-code"), {
+            mode: "javascript",
+            theme: "dracula",
+            lineNumbers: true,
+            extraKeys: { "Ctrl-Space": "autocomplete" },
+            hintOptions: { completeSingle: false }
+        });
 
-// مقدار پیش‌فرض برای HTML
-htmlEditor.setValue(``);
+        // مقدار پیش‌فرض برای HTML
+        htmlEditor.setValue(``);
 
-// تابع به‌روزرسانی خروجی
-function updateOutput() {
-    let outputFrame = document.getElementById("output-frame").contentWindow.document;
-    
-    outputFrame.open();
-    outputFrame.write(`
+        // تابع به‌روزرسانی خروجی
+        function updateOutput() {
+            let outputFrame = document.getElementById("output-frame").contentWindow.document;
+
+            outputFrame.open();
+            outputFrame.write(`
         <html>
         <head>
             <style>${cssEditor.getValue()}</style>
@@ -250,157 +279,170 @@ function updateOutput() {
         </body>
         </html>
     `);
-    outputFrame.close();
-}
+            outputFrame.close();
+        }
 
-// تابع تنظیم ارتفاع بر اساس تعداد خطوط
-function adjustEditorHeightOnNewLine(editor) {
-    let lineCount = editor.lineCount();
-    const lineHeight = 20; // ارتفاع تقریبی هر خط (پیکسل)
-    const minHeight = 350; // حداقل ارتفاع
-    const newHeight = Math.max(minHeight, lineCount * lineHeight + 30);
-    
-    editor.getWrapperElement().style.height = newHeight + 'px';
-    editor.refresh();
-}
+        // تابع تنظیم ارتفاع بر اساس تعداد خطوط
+        function adjustEditorHeightOnNewLine(editor) {
+            let lineCount = editor.lineCount();
+            const lineHeight = 20; // ارتفاع تقریبی هر خط (پیکسل)
+            const minHeight = 350; // حداقل ارتفاع
+            const newHeight = Math.max(minHeight, lineCount * lineHeight + 30);
 
-// رویداد تغییر برای هر ویرایشگر (فقط هنگام اضافه شدن خط جدید)
-htmlEditor.on("change", function(editor, change) {
-    if (change.text.length > 1) { // فقط وقتی Enter زده شود
-        adjustEditorHeightOnNewLine(htmlEditor);
-    }
-    updateOutput();
-});
-
-cssEditor.on("change", function(editor, change) {
-    if (change.text.length > 1) {
-        adjustEditorHeightOnNewLine(cssEditor);
-    }
-    updateOutput();
-});
-
-jsEditor.on("change", function(editor, change) {
-    if (change.text.length > 1) {
-        adjustEditorHeightOnNewLine(jsEditor);
-    }
-    updateOutput();
-});
-
-// فعال‌سازی تکمیل خودکار هنگام تایپ
-function enableAutoComplete(editor) {
-    editor.on("inputRead", function (cm) {
-        cm.showHint();
-    });
-}
-
-enableAutoComplete(htmlEditor);
-enableAutoComplete(cssEditor);
-enableAutoComplete(jsEditor);
-
-// تغییر تب‌های ادیتور
-document.querySelectorAll('.editor-tab').forEach(tab => {
-    tab.addEventListener('click', function() {
-        document.querySelectorAll('.editor-tab').forEach(t => {
-            t.classList.remove('active');
-        });
-        
-        document.querySelectorAll('.editor-section').forEach(section => {
-            section.classList.remove('active');
-        });
-        
-        this.classList.add('active');
-        const targetId = this.getAttribute('data-target');
-        document.getElementById(targetId).classList.add('active');
-        
-        setTimeout(() => {
-            const editor = targetId === 'html-editor' ? htmlEditor : 
-                         targetId === 'css-editor' ? cssEditor : jsEditor;
+            editor.getWrapperElement().style.height = newHeight + 'px';
             editor.refresh();
-        }, 10);
-    });
-});
-
-// تنظیم نمایش در موبایل
-document.addEventListener("DOMContentLoaded", function () {
-    let outputSection = document.querySelector(".output");
-    let toggleButton = document.getElementById("toggle-view");
-    let editorTabs = document.getElementById('editor-tabs');
-
-    if (window.innerWidth <= 768) {
-        outputSection.style.display = "none";
-    }
-
-    toggleButton.addEventListener("click", function () {
-        const editorContainer = document.querySelector('.editor-container');
-        if (editorContainer.style.display !== "none") {editorContainer.style.display = "none";
-            editorTabs.style.display = "none";
-            outputSection.style.display = "block";
-            toggleButton.innerText = "بازگشت به کدنویسی";
-        } else {
-            editorContainer.style.display = "flex";
-            editorTabs.style.display = "flex";
-            outputSection.style.display = "none";
-            toggleButton.innerText = "مشاهده نتیجه";
-        }
-    });
-});
-
-// تنظیم ارتفاع اولیه
-setTimeout(() => {
-    adjustEditorHeightOnNewLine(htmlEditor);
-    adjustEditorHeightOnNewLine(cssEditor);
-    adjustEditorHeightOnNewLine(jsEditor);
-}, 100);
-
-// اضافه کردن "{" و "}" خودکار در CSS
-cssEditor.on("beforeChange", function (editor, change) {
-    if (change.origin === "+input") {
-        let typed = change.text[0];
-
-        if (typed === "{") {
-            let cursor = editor.getCursor();
-            change.update(undefined, undefined, ["{", "", "}", ""]);
-
-            setTimeout(() => {
-                editor.setCursor(cursor.line + 1, 4);
-            }, 10);
         }
 
-        if (typed === "}") {
-            let cursor = editor.getCursor();
-            let line = editor.getLine(cursor.line);
-
-            if (!line.includes("{")) {
-                change.update(undefined, undefined, ["{", "", "}", ""]);
-                setTimeout(() => {
-                    editor.setCursor(cursor.line + 1, 4);
-                }, 10);
+        // رویداد تغییر برای هر ویرایشگر (فقط هنگام اضافه شدن خط جدید)
+        htmlEditor.on("change", function (editor, change) {
+            if (change.text.length > 1) { // فقط وقتی Enter زده شود
+                adjustEditorHeightOnNewLine(htmlEditor);
             }
+            updateOutput();
+        });
+
+        cssEditor.on("change", function (editor, change) {
+            if (change.text.length > 1) {
+                adjustEditorHeightOnNewLine(cssEditor);
+            }
+            updateOutput();
+        });
+
+        jsEditor.on("change", function (editor, change) {
+            if (change.text.length > 1) {
+                adjustEditorHeightOnNewLine(jsEditor);
+            }
+            updateOutput();
+        });
+
+        // فعال‌سازی تکمیل خودکار هنگام تایپ
+        function enableAutoComplete(editor) {
+            editor.on("inputRead", function (cm) {
+                cm.showHint();
+            });
         }
-    }
-});
 
-// اضافه کردن ": ;" هنگام کلیک روی پیشنهادات در CSS
-cssEditor.on("inputRead", function (editor) {
-    setTimeout(() => {
-        let completionList = document.querySelector(".CodeMirror-hints");
-        if (completionList) {
-            completionList.addEventListener("click", function (e) {
-                if (e.target.classList.contains("CodeMirror-hint")) {
-                    let cursor = editor.getCursor();
-                    let token = editor.getTokenAt(cursor);
-                    let prop = e.target.innerText.trim();
+        enableAutoComplete(htmlEditor);
+        enableAutoComplete(cssEditor);
+        enableAutoComplete(jsEditor);
 
-                    let newValue =` ${prop}: ;`;
-                    editor.replaceRange(newValue, { line: cursor.line, ch: token.start }, { line: cursor.line, ch: token.end });
+        // تغییر تب‌های ادیتور
+        document.querySelectorAll('.editor-tab').forEach(tab => {
+            tab.addEventListener('click', function () {
+                document.querySelectorAll('.editor-tab').forEach(t => {
+                    t.classList.remove('active');
+                });
 
-                    editor.setCursor(cursor.line, token.start + prop.length + 2);
-                    e.stopPropagation();
+                document.querySelectorAll('.editor-section').forEach(section => {
+                    section.classList.remove('active');
+                });
+
+                this.classList.add('active');
+                const targetId = this.getAttribute('data-target');
+                document.getElementById(targetId).classList.add('active');
+
+                setTimeout(() => {
+                    const editor = targetId === 'html-editor' ? htmlEditor :
+                        targetId === 'css-editor' ? cssEditor : jsEditor;
+                    editor.refresh();
+                }, 10);
+            });
+        });
+
+        // تنظیم نمایش در موبایل
+        document.addEventListener("DOMContentLoaded", function () {
+            let outputSection = document.querySelector(".output");
+            let toggleButton = document.getElementById("toggle-view");
+            let editorTabs = document.getElementById('editor-tabs');
+
+            if (window.innerWidth <= 768) {
+                outputSection.style.display = "none";
+            }
+
+            toggleButton.addEventListener("click", function () {
+                const editorContainer = document.querySelector('.editor-container');
+                if (editorContainer.style.display !== "none") {
+                    editorContainer.style.display = "none";
+                    editorTabs.style.display = "none";
+                    outputSection.style.display = "block";
+                    toggleButton.innerText = "بازگشت به کدنویسی";
+                } else {
+                    editorContainer.style.display = "flex";
+                    editorTabs.style.display = "flex";
+                    outputSection.style.display = "none";
+                    toggleButton.innerText = "مشاهده نتیجه";
                 }
-            }, { once: true });
+            });
+        });
+
+        // تنظیم ارتفاع اولیه
+        setTimeout(() => {
+            adjustEditorHeightOnNewLine(htmlEditor);
+            adjustEditorHeightOnNewLine(cssEditor);
+            adjustEditorHeightOnNewLine(jsEditor);
+        }, 100);
+
+        // اضافه کردن "{" و "}" خودکار در CSS
+        cssEditor.on("beforeChange", function (editor, change) {
+            if (change.origin === "+input") {
+                let typed = change.text[0];
+
+                if (typed === "{") {
+                    let cursor = editor.getCursor();
+                    change.update(undefined, undefined, ["{", "", "}", ""]);
+
+                    setTimeout(() => {
+                        editor.setCursor(cursor.line + 1, 4);
+                    }, 10);
+                }
+
+                if (typed === "}") {
+                    let cursor = editor.getCursor();
+                    let line = editor.getLine(cursor.line);
+
+                    if (!line.includes("{")) {
+                        change.update(undefined, undefined, ["{", "", "}", ""]);
+                        setTimeout(() => {
+                            editor.setCursor(cursor.line + 1, 4);
+                        }, 10);
+                    }
+                }
+            }
+        });
+
+        // اضافه کردن ": ;" هنگام کلیک روی پیشنهادات در CSS
+        cssEditor.on("inputRead", function (editor) {
+            setTimeout(() => {
+                let completionList = document.querySelector(".CodeMirror-hints");
+                if (completionList) {
+                    completionList.addEventListener("click", function (e) {
+                        if (e.target.classList.contains("CodeMirror-hint")) {
+                            let cursor = editor.getCursor();
+                            let token = editor.getTokenAt(cursor);
+                            let prop = e.target.innerText.trim();
+
+                            let newValue = ` ${prop}: ;`;
+                            editor.replaceRange(newValue, { line: cursor.line, ch: token.start }, { line: cursor.line, ch: token.end });
+
+                            editor.setCursor(cursor.line, token.start + prop.length + 2);
+                            e.stopPropagation();
+                        }
+                    }, { once: true });
+                }
+            }, 100);
+        });
+        // در بخش اسکریپت
+        if (window.navigator.standalone) {
+            document.documentElement.style.height = '100vh';
+            document.documentElement.style.overflow = 'hidden';
+            document.body.style.height = '100vh';
+            document.body.style.overflow = 'hidden';
+
+            // برای عناصر اصلی
+            document.querySelector('.container').style.height = '100vh';
+            document.querySelector('.editor-container').style.height = 'calc(100vh - 50px)';
         }
-    }, 100);
-});
-</script>
+    </script>
 </body>
+
 </html>
